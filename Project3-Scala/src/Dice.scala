@@ -5,16 +5,25 @@ object HandRank extends Enumeration {
   val  Low, Pair, TwoPair, ThreeOfKind, Straight, FullHouse, FourOfKind, FiveOfKind = Value
 }
 
-case class DiceHand(hand : Array[Int] = new Array[Int](5)) {
-  private val rand = new Random(System.currentTimeMillis())
+class DiceHand {
+  val hand = new Array[Int](5)
+  val rand = new Random(System.currentTimeMillis())
+  
   def roll : Unit = { 
     for(i <- 0 until hand.length)
       hand(i) = rand.nextInt(6) + 1
   }
   
+  //Ignores all invalid inputs and duplicate dice numbers
+  def reRoll(s : String) = {
+    val list = s.trim.split("\\s+").toList.filter(x => x.length() == 1 && x.charAt(0).isDigit).distinct.map(_.toInt)
+    for(i <- list if(i.toInt > 0 && i.toInt < 6))
+      hand(i.toInt - 1) = rand.nextInt(6) + 1
+  }
+  
   def evalHand() : Int = {
     val list = hand.toList.sortWith(_ < _)
-    var pairCount = 0;
+    var pairCount = 0
     var rank : Int = HandRank.Low.id
     
     breakable {
@@ -36,10 +45,6 @@ case class DiceHand(hand : Array[Int] = new Array[Int](5)) {
     }
     rank
   }
-  override def toString() : String = {
-    var s = ""
-    for(i <- 0 until hand.length)
-      s += hand(i) + " "
-    s
-  }
+  
+  override def toString() : String = hand.mkString(" ")
 }
