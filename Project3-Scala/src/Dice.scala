@@ -6,7 +6,9 @@ object HandRank extends Enumeration {
 }
 
 object DiceHand {
-  private val diceMap = Map(1 -> 0x2680, 2 -> 0x2681, 3 -> 0x2682, 4 -> 0x2683, 5 -> 0x2684, 6 -> 0x2685)
+  val diceMap = Map(1 -> (0x2680, "d1.png"), 2 -> (0x2681, "d2.png"), 
+                    3 -> (0x2682, "d3.png"), 4 -> (0x2683, "d4.png"),
+                    5 -> (0x2684, "d5.png"), 6 -> (0x2685, "d6.png"))
 }
 
 class DiceHand {
@@ -50,5 +52,5 @@ class DiceHand {
     rank
   }
   
-  override def toString() : String = hand.map(DiceHand.diceMap(_).toChar).mkString(" ")
+  override def toString() : String = hand.map(x => (DiceHand.diceMap(x)_1).toChar).mkString(" ")
 }
