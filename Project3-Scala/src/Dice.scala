@@ -2,7 +2,11 @@ import java.util.Random
 import scala.util.control.Breaks._
 
 object HandRank extends Enumeration {
-  val  Low, Pair, TwoPair, ThreeOfKind, Straight, FullHouse, FourOfKind, FiveOfKind = Value
+  val Low, Pair, TwoPair, ThreeOfKind, Straight, FullHouse, FourOfKind, FiveOfKind = Value
+}
+
+object DiceHand {
+  private val diceMap = Map(1 -> 0x2680, 2 -> 0x2681, 3 -> 0x2682, 4 -> 0x2683, 5 -> 0x2684, 6 -> 0x2685)
 }
 
 class DiceHand {
@@ -16,9 +20,9 @@ class DiceHand {
   
   //Ignores all invalid inputs and duplicate dice numbers
   def reRoll(s : String) = {
-    val list = s.trim.split("\\s+").toList.filter(x => x.length() == 1 && x.charAt(0).isDigit).distinct.map(_.toInt)
-    for(i <- list if(i.toInt > 0 && i.toInt < 6))
-      hand(i.toInt - 1) = rand.nextInt(6) + 1
+    val diceList = s.trim.split("\\s+").filter(x => x.length() == 1 && x.charAt(0).isDigit).distinct.map(_.toInt)
+    for(i <- diceList if(i.toInt > 0 && i.toInt < 6))
+      hand(i - 1) = rand.nextInt(6) + 1
   }
   
   def evalHand() : Int = {
@@ -37,7 +41,7 @@ class DiceHand {
           rank = HandRank.FullHouse.id
         break
       }
-      for(List(l,r) <- list.sliding(2) if(l == r)) pairCount += 1;
+      for(List(l,r) <- list.sliding(2) if(l == r)) pairCount += 1
       if(pairCount == 1)
         rank = HandRank.Pair.id
       else if(pairCount == 2)
@@ -46,5 +50,5 @@ class DiceHand {
     rank
   }
   
-  override def toString() : String = hand.mkString(" ")
+  override def toString() : String = hand.map(DiceHand.diceMap(_).toChar).mkString(" ")
 }

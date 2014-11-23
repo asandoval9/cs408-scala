@@ -2,7 +2,6 @@ import scala.io.StdIn.readLine
 
 object Project3 {
   def main(args : Array[String]) {
-    
     val player1 = new DiceHand();
     player1.roll
     println("Player 1:  " + player1)
