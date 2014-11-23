@@ -9,7 +9,7 @@ object Project3 {
     player1.reRoll(readLine)
     println("Player 1: " +  player1)
     val p1rank = player1.evalHand()
-    println("\t" + HandRank(p1rank) + "\n\n")
+    println("\t" + HandRank(p1rank) + "\n" + ("-" * 50))
     
     val player2 = new DiceHand();
     player2.roll
