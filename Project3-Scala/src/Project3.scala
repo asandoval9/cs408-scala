@@ -1,4 +1,4 @@
-import scala.io.StdIn.readLine
+import scala.io.StdIn._
 
 object Project3 {
   def main(args: Array[String]) {

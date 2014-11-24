@@ -2,8 +2,14 @@ import scala.swing._
 import scala.swing.event._
 import javax.swing.ImageIcon
 import java.awt.Color
+import javax.swing.UIManager._
+import com.sun.java.swing.plaf.windows.WindowsLookAndFeel
 
 class DiceGUI extends MainFrame {
+  for (laf <- getInstalledLookAndFeels)
+    if ("Metal".equals(laf.getName)) 
+      setLookAndFeel(laf.getClassName)
+
   title = "Dice"
   preferredSize = new Dimension(450, 300)
   peer.setLocationRelativeTo(null)
@@ -61,6 +67,7 @@ class DiceGUI extends MainFrame {
       updateDice(p1Hand, diceBtns)
       val p1Rank = p1Hand.evalHand()
       val compRank = compHand.evalHand()
+      
       if (p1Rank > compRank)
         resultsLbl.text += "Winner: Player 1 wins with " + HandRank(p1Rank)
       else if (p1Rank == compRank)
