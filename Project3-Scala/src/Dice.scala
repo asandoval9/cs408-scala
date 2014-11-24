@@ -6,14 +6,14 @@ object HandRank extends Enumeration {
 }
 
 object DiceHand {
-  val diceMap = Map(1 -> (0x2680, "d1.png"), 2 -> (0x2681, "d2.png"), 
-                    3 -> (0x2682, "d3.png"), 4 -> (0x2683, "d4.png"),
-                    5 -> (0x2684, "d5.png"), 6 -> (0x2685, "d6.png"))
+  val diceMap = Map(1 -> (0x2680, "imgs/d1.png"), 2 -> (0x2681, "imgs/d2.png"), 
+                    3 -> (0x2682, "imgs/d3.png"), 4 -> (0x2683, "imgs/d4.png"),
+                    5 -> (0x2684, "imgs/d5.png"), 6 -> (0x2685, "imgs/d6.png"))
 }
 
 class DiceHand {
   val hand = new Array[Int](5)
-  val rand = new Random(System.currentTimeMillis())
+  val rand = new Random
   
   def roll : Unit = { 
     for(i <- 0 until hand.length)
