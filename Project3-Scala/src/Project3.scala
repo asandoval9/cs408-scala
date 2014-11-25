@@ -7,32 +7,30 @@ object Project3 {
 
     if (selection == 2) {
       val player1 = new DiceHand();
-      player1.roll
-      println("Player 1:  " + player1)
-      println("Choose Dice 1 - 5 to reroll, seperated by a space. Leave blank if none.")
-      player1.reRoll(readLine)
-      println("Player 1: " + player1)
-      val p1rank = player1.evalHand()
+      val p1rank = playerTurn(player1, "Player 1")
       println("\t" + HandRank(p1rank) + "\n" + ("-" * 50))
 
       val player2 = new DiceHand();
-      player2.roll
-      println("Player 2:  " + player2)
-      println("Choose Dice 1 - 5 to reroll, seperated by a space. Leave blank if none.")
-      player2.reRoll(readLine)
-      println("Player 2: " + player2)
-      val p2rank = player2.evalHand()
+      val p2rank = playerTurn(player2, "Player 2")
       println("\t" + HandRank(p2rank))
-
-      if (p1rank > p2rank)
-        println("Winner: Player 1 wins with " + HandRank(p1rank))
-      else if (p1rank == p2rank)
-        println("Tie: Players tie with " + HandRank(p1rank))
-      else
-        println("Winner: Player 2 wins with " + HandRank(p2rank))
+      
+      p1rank.compareTo(p2rank) match {
+        case x if(x > 0)  => println("Winner: Player 1 wins with " + HandRank(p1rank))
+        case 0 => println("Tie: Players tie with " + HandRank(p1rank))
+        case _ => println("Winner: Player 2 wins with " + HandRank(p2rank))
+      }
     } else if (selection == 1) {
       val diceUI = new DiceGUI
       diceUI.visible = true
+    }
+    
+    def playerTurn(p : DiceHand, pName : String) : Int = {
+      p.roll
+      println(pName + ": " + p)
+      println("Choose Dice 1 - 5 to reroll, seperated by a space. Leave blank if none.")
+      p.reRoll(readLine)
+      println(pName + ": " + p)
+      p.evalHand() 
     }
   }
 }

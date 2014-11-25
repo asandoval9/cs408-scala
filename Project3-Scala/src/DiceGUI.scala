@@ -3,22 +3,21 @@ import scala.swing.event._
 import javax.swing.ImageIcon
 import java.awt.Color
 import javax.swing.UIManager._
-import com.sun.java.swing.plaf.windows.WindowsLookAndFeel
 
 class DiceGUI extends MainFrame {
   for (laf <- getInstalledLookAndFeels)
     if ("Metal".equals(laf.getName)) 
       setLookAndFeel(laf.getClassName)
-
+      
   title = "Dice"
   preferredSize = new Dimension(450, 300)
   peer.setLocationRelativeTo(null)
   val p1Hand = new DiceHand
   val compHand = new DiceHand
 
-  val rollBtn = new Button { text = "Roll!" }
-  val reRollBtn = new Button { text = "Reroll Selected!"; enabled = false }
-  val resultsLbl = new Label { text = "Results: " }
+  val rollBtn = new Button("Roll")
+  val reRollBtn = new Button("Reroll Selected!") { enabled = false }
+  val resultsLbl = new Label("Results ")
 
   val diceBtns = new Array[ToggleButton](5)
   val diceCompBtns = new Array[ToggleButton](5)
@@ -68,12 +67,12 @@ class DiceGUI extends MainFrame {
       val p1Rank = p1Hand.evalHand()
       val compRank = compHand.evalHand()
       
-      if (p1Rank > compRank)
-        resultsLbl.text += "Winner: Player 1 wins with " + HandRank(p1Rank)
-      else if (p1Rank == compRank)
-        resultsLbl.text += "Tie: Players tie with " + HandRank(p1Rank)
-      else
-        resultsLbl.text += "Winner: Player 2 wins with " + HandRank(compRank)
+      p1Rank.compareTo(compRank) match {
+        case x if(x > 0) => resultsLbl.text += "Winner: Player 1 wins with " + HandRank(p1Rank)
+        case 0 => resultsLbl.text += "Tie: Players tie with " + HandRank(p1Rank)
+        case _ => resultsLbl.text += "Winner: Computer wins with " + HandRank(compRank)
+      }
+      
       diceBtns.foreach { _.selected = false }
       rollBtn.enabled = !rollBtn.enabled
       reRollBtn.enabled = !rollBtn.enabled
