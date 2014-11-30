@@ -85,17 +85,17 @@ class DiceGUI extends MainFrame {
   def rollDice: Unit = {
     val timer = new javax.swing.Timer(100, null)
     timer.addActionListener(new java.awt.event.ActionListener{
-        var i = 0
-        def actionPerformed(e: java.awt.event.ActionEvent){
-        	 p1Hand.roll
-        	 updateDice(p1Hand, diceBtns)
-        	 compHand.roll
-        	 updateDice(compHand, diceCompBtns)
-        	 repaint
-        	 i += 1
-        	 if(i == 10) timer.stop
-        }
-     })
-     timer.start
+      var i = 0
+      def actionPerformed(e: java.awt.event.ActionEvent){
+        p1Hand.roll
+        updateDice(p1Hand, diceBtns)
+        compHand.roll
+        updateDice(compHand, diceCompBtns)
+        repaint
+        i += 1
+        if(i == 10) timer.stop
+      }
+    })
+    timer.start
   }
 }
