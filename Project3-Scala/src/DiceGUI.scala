@@ -3,6 +3,7 @@ import scala.swing.event._
 import javax.swing.ImageIcon
 import java.awt.Color
 import javax.swing.UIManager._
+import javax.swing.Timer
 
 class DiceGUI extends MainFrame {
   for (laf <- getInstalledLookAndFeels)
@@ -54,10 +55,7 @@ class DiceGUI extends MainFrame {
   reactions += {
     case ButtonClicked(comp) if comp == rollBtn =>
       resultsLbl.text = "Results: "
-      p1Hand.roll
-      updateDice(p1Hand, diceBtns)
-      compHand.roll
-      updateDice(compHand, diceCompBtns)
+      rollDice
       rollBtn.enabled = !rollBtn.enabled
       reRollBtn.enabled = !rollBtn.enabled
     case ButtonClicked(comp) if comp == reRollBtn =>
@@ -82,5 +80,22 @@ class DiceGUI extends MainFrame {
     val curHand = dice.hand
     for (i <- 0 until dice.hand.length)
       btns(i).icon = new ImageIcon(DiceHand.diceMap(curHand(i))_2)
+  }
+
+  def rollDice: Unit = {
+    val timer = new javax.swing.Timer(100, null)
+    timer.addActionListener(new java.awt.event.ActionListener{
+        var i = 0
+        def actionPerformed(e: java.awt.event.ActionEvent){
+        	 p1Hand.roll
+        	 updateDice(p1Hand, diceBtns)
+        	 compHand.roll
+        	 updateDice(compHand, diceCompBtns)
+        	 repaint
+        	 i += 1
+        	 if(i == 10) timer.stop
+        }
+     })
+     timer.start
   }
 }
